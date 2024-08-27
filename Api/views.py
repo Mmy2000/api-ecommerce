@@ -46,15 +46,30 @@ def api_product(request, pk):
         
 
 
-@api_view()
+@api_view(['GET', 'POST'])
 def api_categories(request):
-    categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
+    if request.method == 'POST':
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
-@api_view()
+@api_view(['GET', 'PUT', 'DELETE'])
 def api_category(request, pk):
     category = get_object_or_404(Category, category_id=pk)
-    serializer = CategorySerializer(category)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = CategorySerializer(category, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
