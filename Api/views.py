@@ -45,6 +45,15 @@ class ProsuctDetailsApi(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
+class CategoriesListApi(generics.ListCreateAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+    # permission_classes = [IsAuthenticated,]
+
+class CategoriesDetailsApi(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
 
 
 
