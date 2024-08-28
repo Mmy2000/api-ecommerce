@@ -33,7 +33,7 @@ class SimpleProductSerializer(serializers.ModelSerializer):
         
 
 class CartItemSerializer(serializers.ModelSerializer):
-    product = SimpleProductSerializer(many=False)
+    product = ProductSerializer(many=False)
     sub_total = serializers.SerializerMethodField( method_name="total")
     class Meta:
         model= Cartitems
