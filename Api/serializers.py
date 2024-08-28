@@ -27,13 +27,13 @@ class ReviewSerializer(serializers.ModelSerializer):
 class SimpleProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["id","name", "price"]
+        fields = ["id","name", "price","image"]
         
         
         
 
 class CartItemSerializer(serializers.ModelSerializer):
-    product = ProductSerializer(many=False)
+    product = SimpleProductSerializer(many=False)
     sub_total = serializers.SerializerMethodField( method_name="total")
     class Meta:
         model= Cartitems
