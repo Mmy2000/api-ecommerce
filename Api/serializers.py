@@ -24,14 +24,15 @@ class ReviewSerializer(serializers.ModelSerializer):
         product_id = self.context["product_id"]
         return Review.objects.create(product_id = product_id,  **validated_data)
     
+
+
+
 class SimpleProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ["id","name", "price","image"]
         
         
-        
-
 class CartItemSerializer(serializers.ModelSerializer):
     product = SimpleProductSerializer(many=False)
     sub_total = serializers.SerializerMethodField( method_name="total")
@@ -45,7 +46,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     
 class CartSerializer(serializers.ModelSerializer):
     cart_id = serializers.UUIDField(read_only=True)
-    items = CartItemSerializer(many=True)
+    items = CartItemSerializer(many=True,read_only=True)
     grand_total = serializers.SerializerMethodField(method_name='main_total')
     
     class Meta:
