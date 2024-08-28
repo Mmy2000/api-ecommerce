@@ -19,9 +19,9 @@ from rest_framework import generics
 
 # Create your views here.
 
-# class ProductsViewSet(ModelViewSet):
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
+class ProductsViewSet(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
     
     
 #     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
@@ -31,28 +31,28 @@ from rest_framework import generics
 #     pagination_class = PageNumberPagination
 
 
-# class CategoryViewSet(ModelViewSet):
-#     queryset = Category.objects.all()
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+# class ProductListApi(generics.ListCreateAPIView):
+#     serializer_class = ProductSerializer
+#     queryset = Product.objects.all()
+#     # permission_classes = [IsAuthenticated,]
+
+# class ProsuctDetailsApi(generics.RetrieveUpdateDestroyAPIView):
+#     serializer_class = ProductSerializer
+#     queryset = Product.objects.all()
+
+# class CategoriesListApi(generics.ListCreateAPIView):
 #     serializer_class = CategorySerializer
+#     queryset = Category.objects.all()
+#     # permission_classes = [IsAuthenticated,]
 
-
-class ProductListApi(generics.ListCreateAPIView):
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
-    # permission_classes = [IsAuthenticated,]
-
-class ProsuctDetailsApi(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
-
-class CategoriesListApi(generics.ListCreateAPIView):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
-    # permission_classes = [IsAuthenticated,]
-
-class CategoriesDetailsApi(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
+# class CategoriesDetailsApi(generics.RetrieveUpdateDestroyAPIView):
+#     serializer_class = CategorySerializer
+#     queryset = Category.objects.all()
 
 
 
