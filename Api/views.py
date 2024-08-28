@@ -1,8 +1,8 @@
 from urllib import response
 from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
-from .serializers import ProductSerializer, CategorySerializer
-from store.models import Category, Product
+from .serializers import ProductSerializer, CategorySerializer , ReviewSerializer
+from store.models import Category, Product , Review
 from rest_framework.response import Response
 from rest_framework import status
 from Api import serializers
@@ -35,6 +35,14 @@ class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+class ReviewViewSet(ModelViewSet):
+    serializer_class = ReviewSerializer
+    
+    def get_queryset(self):
+         return Review.objects.filter(product_id=self.kwargs["product_pk"])
+    
+    def get_serializer_context(self):
+        return {"product_id": self.kwargs["product_pk"]}
 
 # class ProductListApi(generics.ListCreateAPIView):
 #     serializer_class = ProductSerializer

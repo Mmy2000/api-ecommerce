@@ -43,8 +43,3 @@ def createProfile(sender, instance, created, *args, **kwargs):
         customer_user.email = instance.email
         customer_user.last_name = instance.last_name
         customer_user.save()
-
-        
-    
-
-    
