@@ -88,7 +88,7 @@ class Cart(models.Model):
         return str(self.cart_id)
 
 class Cartitems(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE,related_name='items', blank=True, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True, related_name='cartitems')
     quantity = models.IntegerField(default=0)
     
