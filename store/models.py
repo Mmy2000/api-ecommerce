@@ -4,6 +4,7 @@ import uuid
 from django.contrib.auth.models import User
 from  django.conf import settings
 from userProfile.models import Customer
+from decimal import Decimal  # Import Decimal
 
 # Create your models here.
 
@@ -24,21 +25,24 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True)
     discount = models. BooleanField(default=False)
     image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
-    old_price = models.FloatField(default=100.00)
+    old_price = models.FloatField(default=100.00,help_text="this is the price if no discount, if is discount it become an old price")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products')
     slug = models.SlugField(default=None)
     id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, unique=True)
     inventory = models.IntegerField(default=5)
     top_deal=models.BooleanField(default=False)
     flash_sales = models.BooleanField(default=False)
+    discountValue = models.DecimalField(max_digits=5, decimal_places=2, default=0.00 , help_text="put discount value")
     
 
     @property
     def price(self):
-        if self.discount:
-            new_price = self.old_price - ((30/100)*self.old_price)
+        if self.discount and self.discountValue:
+            # Convert old_price to Decimal before the operation
+            old_price_decimal = Decimal(self.old_price)
+            new_price = old_price_decimal - (self.discountValue/100 * old_price_decimal)
         else:
-            new_price = self.old_price
+            new_price = Decimal(self.old_price)  # Convert to Decimal here as well
         return new_price
     
     @property

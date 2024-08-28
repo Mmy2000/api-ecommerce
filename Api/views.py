@@ -24,11 +24,11 @@ class ProductsViewSet(ModelViewSet):
     serializer_class = ProductSerializer
     
     
-#     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-#     filterset_class = ProductFilter
-#     search_fields = ['name', 'description']
-#     ordering_fields = ['old_price']
-#     pagination_class = PageNumberPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = ProductFilter
+    search_fields = ['name', 'description']
+    ordering_fields = ['old_price']
+    pagination_class = PageNumberPagination
 
 
 class CategoryViewSet(ModelViewSet):
