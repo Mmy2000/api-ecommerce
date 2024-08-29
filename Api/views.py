@@ -15,7 +15,7 @@ from Api.filters import ProductFilter
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Create your views here.
 
@@ -23,6 +23,7 @@ class ProductsViewSet(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
+    parser_classes = (MultiPartParser, FormParser)
     
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter

@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from  django.conf import settings
 from userProfile.models import Customer
 from decimal import Decimal  # Import Decimal
+from django.utils.text import slugify
+
 
 # Create your models here.
 
@@ -52,15 +54,23 @@ class Product(models.Model):
     discountValue = models.DecimalField(max_digits=5, decimal_places=2, default=0.00 , help_text="put discount value")
     
 
-    @property
-    def price(self):
-        if self.discount and self.discountValue:
-            # Convert old_price to Decimal before the operation
-            old_price_decimal = Decimal(self.old_price)
-            new_price = old_price_decimal - (self.discountValue/100 * old_price_decimal)
-        else:
-            new_price = Decimal(self.old_price)  # Convert to Decimal here as well
-        return new_price
+    # @property
+    # def price(self):
+    #     if self.discount and self.discountValue:
+    #         # Convert old_price to Decimal before the operation
+    #         old_price_decimal = Decimal(self.old_price)
+    #         new_price = old_price_decimal - (self.discountValue/100 * old_price_decimal)
+    #     else:
+    #         new_price = Decimal(self.old_price)  # Convert to Decimal here as well
+    #     return new_price
+
+    # @property
+    # def price(self):
+    #     if self.discount:
+    #         new_price = self.old_price - ((30/100)*self.old_price)
+    #     else:
+    #         new_price = self.old_price
+    #     return new_price
     
     @property
     def img(self):
@@ -73,8 +83,24 @@ class Product(models.Model):
         verbose_name = ("Products")
         verbose_name_plural = ("Products")
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
+    
+class ProImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name = "images")
+    image = models.ImageField(upload_to="img", default="", null=True, blank=True)
+
+    class Meta:
+        verbose_name = ("Product images")
+        verbose_name_plural = ("Product Images")
+
+    def __str__(self):
+        return str(self.product)
 
 class Cart(models.Model):
     owner = models.ForeignKey(Customer, on_delete=models.CASCADE, null = True, blank=True)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from  store.models import Category, Product , Review , Cart , Cartitems
+from  store.models import Category, Product , Review , Cart , Cartitems , ProImage
 
 class CategorySerializer(serializers.ModelSerializer):
     
@@ -7,12 +7,29 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ["category_id", "title", "slug"]
 
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProImage
+        fields = ["id", "product", "image"]
+
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
+    images = ProductImageSerializer(many=True, read_only=True)
+    uploaded_images = serializers.ListField(
+        child = serializers.ImageField(max_length = 1000000, allow_empty_file = False, use_url = False),
+        write_only=True)
+    
     class Meta:
         model = Product
-        fields = [ "id", "name", "description", "category", "slug", "inventory", "old_price", "price","discount","image"]
+        fields = [ "id", "name", "description", "inventory", "old_price", "images", "uploaded_images","slug"]
+    
+    
+    def create(self, validated_data):
+        uploaded_images = validated_data.pop("uploaded_images")
+        product = Product.objects.create(**validated_data)
+        for image in uploaded_images:
+            newproduct_image = ProImage.objects.create(product=product, image=image)
+        return product
 
 
 class ReviewSerializer(serializers.ModelSerializer):
