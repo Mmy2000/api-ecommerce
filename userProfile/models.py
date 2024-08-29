@@ -10,6 +10,10 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=100, default= None, null=True, blank=True)
     last_name = models.CharField(max_length=100, default= None, null=True, blank=True)
     email = models.EmailField(max_length=100, default= None, null=True, blank=True, unique=True)
+
+    class Meta:
+        verbose_name = ("Customers")
+        verbose_name_plural = ("Customers")
     
     
     def __str__(self):
@@ -21,6 +25,10 @@ class Address(models.Model):
     bus_stop = models.CharField(max_length=20)
     city = models.CharField(max_length=20)
     state = models.CharField(max_length=20)
+
+    class Meta:
+        verbose_name = ("Address")
+        verbose_name_plural = ("Address")
     
     def __str__(self):
         return self.home_address
