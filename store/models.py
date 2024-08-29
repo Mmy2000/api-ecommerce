@@ -56,21 +56,14 @@ class Product(models.Model):
 
     # @property
     # def price(self):
+    #     old_price_decimal = Decimal(str(self.old_price))  # Convert old_price to Decimal for accurate calculations
     #     if self.discount and self.discountValue:
-    #         # Convert old_price to Decimal before the operation
-    #         old_price_decimal = Decimal(self.old_price)
-    #         new_price = old_price_decimal - (self.discountValue/100 * old_price_decimal)
+    #         discount_amount = (self.discountValue / Decimal('100')) * old_price_decimal
+    #         new_price = old_price_decimal - discount_amount
     #     else:
-    #         new_price = Decimal(self.old_price)  # Convert to Decimal here as well
+    #         new_price = old_price_decimal
     #     return new_price
 
-    # @property
-    # def price(self):
-    #     if self.discount:
-    #         new_price = self.old_price - ((30/100)*self.old_price)
-    #     else:
-    #         new_price = self.old_price
-    #     return new_price
     
     @property
     def img(self):

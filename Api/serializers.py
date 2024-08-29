@@ -47,7 +47,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 class SimpleProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ["id","name", "price","image"]
+        fields = ["id","name", "old_price","image"]
         
         
 class CartItemSerializer(serializers.ModelSerializer):
@@ -59,7 +59,7 @@ class CartItemSerializer(serializers.ModelSerializer):
         
     
     def total(self, cartitem:Cartitems):
-        return cartitem.quantity * cartitem.product.price
+        return cartitem.quantity * cartitem.product.old_price
     
 class CartSerializer(serializers.ModelSerializer):
     cart_id = serializers.UUIDField(read_only=True)
@@ -74,5 +74,5 @@ class CartSerializer(serializers.ModelSerializer):
     
     def main_total(self, cart: Cart):
         items = cart.items.all()
-        total = sum([item.quantity * item.product.price for item in items])
+        total = sum([item.quantity * item.product.old_price for item in items])
         return total

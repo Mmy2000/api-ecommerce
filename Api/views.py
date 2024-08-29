@@ -1,7 +1,7 @@
 from urllib import response
 from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
-from .serializers import ProductSerializer, CategorySerializer , ReviewSerializer , CartSerializer
+from .serializers import ProductSerializer, CategorySerializer , ReviewSerializer , CartSerializer , CartItemSerializer
 from store.models import Category, Product , Review , Cart , Cartitems
 from rest_framework.response import Response
 from rest_framework import status
@@ -50,7 +50,12 @@ class CartViewSet(CreateModelMixin,RetrieveModelMixin,DestroyModelMixin,ListMode
     serializer_class = CartSerializer
 
 
-
+class CartItemViewSet(ModelViewSet):
+    
+    def get_queryset(self):
+        return Cartitems.objects.filter(cart_id=self.kwargs["cart_pk"])
+    
+    serializer_class = CartItemSerializer
 
 
 
