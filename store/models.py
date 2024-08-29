@@ -16,6 +16,10 @@ class Category(models.Model):
     featured_product = models.OneToOneField('Product', on_delete=models.CASCADE, blank=True, null=True, related_name='featured_product')
     icon = models.CharField(max_length=100, default=None, blank = True, null=True)
 
+    class Meta:
+        verbose_name = ("Categories")
+        verbose_name_plural = ("Categories")
+
     def __str__(self):
         return self.title
     
@@ -24,6 +28,10 @@ class Review(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(default="description")
     name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = ("Reviews")
+        verbose_name_plural = ("Reviews")
     
     def __str__(self):
         return self.description
@@ -60,6 +68,10 @@ class Product(models.Model):
             self.image = ""
         
         return self.image
+    
+    class Meta:
+        verbose_name = ("Products")
+        verbose_name_plural = ("Products")
 
     def __str__(self):
         return self.name
@@ -83,6 +95,10 @@ class Cart(models.Model):
         cartitems = self.cartitems_set.all()
         qtysum = sum([ qty.subTotal for qty in cartitems])
         return qtysum
+    
+    class Meta:
+        verbose_name = ("Cart")
+        verbose_name_plural = ("Cart")
 
     def __str__(self):
         return str(self.cart_id)
@@ -99,6 +115,13 @@ class Cartitems(models.Model):
         
         return total
     
+    class Meta:
+        verbose_name = ("Cart Items")
+        verbose_name_plural = ("Cart Items")
+    
+    def __str__(self):
+        return (self.cart) # TODO
+    
    
 
 class SavedItem(models.Model):
@@ -106,7 +129,9 @@ class SavedItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
     added = models.IntegerField(default=0)
     
-    
+    class Meta:
+        verbose_name = ("Saved Items")
+        verbose_name_plural = ("Saved Items")
     
     def __str__(self):
         return str(self.id)
