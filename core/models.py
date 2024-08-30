@@ -52,6 +52,11 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def save(self, *args, **kwargs):
+        if self.username is None:
+            self.username = self.email.split("@")[0]  # Assign a default username based on email or any placeholder
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'

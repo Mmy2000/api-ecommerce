@@ -64,6 +64,7 @@ DJOSER = {
         'user_create': "core.serializers.MyUserCreateSerializer"
     }
 }
+AUTH_USER_MODEL = 'core.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
