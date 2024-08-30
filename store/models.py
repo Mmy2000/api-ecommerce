@@ -137,6 +137,9 @@ class Cartitems(models.Model):
     class Meta:
         verbose_name = ("Cart Items")
         verbose_name_plural = ("Cart Items")
+        constraints = [
+            models.CheckConstraint(check=models.Q(quantity__gt=0), name='quantity_positive')
+        ]
     
     def __str__(self):
         return str(self.cart) # TODO
