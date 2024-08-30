@@ -82,9 +82,7 @@ class AddCartItemSerializer(serializers.ModelSerializer):
             
             self.instance = cartitem
             
-        
         except:
-            
             self.instance = Cartitems.objects.create(cart_id=cart_id, **self.validated_data)
             
         return self.instance

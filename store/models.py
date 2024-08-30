@@ -139,7 +139,7 @@ class Cartitems(models.Model):
         verbose_name_plural = ("Cart Items")
     
     def __str__(self):
-        return (self.cart) # TODO
+        return str(self.cart) # TODO
     
    
 
