@@ -35,8 +35,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
-    
-    # Add custom related_name to avoid clash with auth.User
+
     groups = models.ManyToManyField(
         'auth.Group',
         related_name='custom_user_set',  # Custom related name
@@ -56,3 +55,4 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'user'
         verbose_name_plural = 'users'
+
