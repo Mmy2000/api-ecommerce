@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.conf import settings
+from django.dispatch import receiver
+from django.db.models.signals import post_save, post_delete
+from store.models import Profile
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
@@ -61,3 +65,7 @@ class User(AbstractUser):
         verbose_name = 'user'
         verbose_name_plural = 'users'
 
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)

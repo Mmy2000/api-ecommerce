@@ -17,7 +17,7 @@ class Customer(models.Model):
     
     
     def __str__(self):
-        return self.first_name
+        return str(self.id)
 
 class Address(models.Model):
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, default='')

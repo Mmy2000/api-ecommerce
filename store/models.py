@@ -145,12 +145,13 @@ class Cartitems(models.Model):
         return str(self.cart) # TODO
     
 class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE , null=True)
     name = models.CharField(max_length=30)
     bio = models.TextField()
     picture = models.ImageField(upload_to = 'img', blank=True, null=True)
     
     def __str__(self):
-        return self.name
+        return str(self.user)
 
 class SavedItem(models.Model):
     owner = models.ForeignKey(Customer, on_delete=models.CASCADE, null = True, blank=True)
