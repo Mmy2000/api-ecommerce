@@ -2,7 +2,7 @@ from urllib import response
 from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view
 from .serializers import *
-from store.models import Category, Product , Review , Cart , Cartitems
+from store.models import Category, Product , Review , Cart , Cartitems , Order , OrderItem
 from rest_framework.response import Response
 from rest_framework import status
 from Api import serializers
@@ -16,6 +16,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -68,6 +69,17 @@ class CartItemViewSet(ModelViewSet):
     
     def get_serializer_context(self):
         return {"cart_id": self.kwargs["cart_pk"]}
+    
+class OrderViewSet(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderSerializer
+    
+    
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Order.objects.all()
+        return Order.objects.filter(owner=user)
 
 
 class ProfileViewSet(ModelViewSet):
