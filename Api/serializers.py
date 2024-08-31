@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from  store.models import Category, Product , Review , Cart , Cartitems , ProImage
+from  store.models import Category, Product , Review , Cart , Cartitems , ProImage , Profile
 
 class CategorySerializer(serializers.ModelSerializer):
     
@@ -118,3 +118,8 @@ class CartSerializer(serializers.ModelSerializer):
         items = cart.items.all()
         total = sum([item.quantity * item.product.old_price for item in items])
         return total
+    
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["id", "name", 'bio', "picture"]
