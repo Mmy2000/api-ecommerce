@@ -20,9 +20,13 @@ class CustomUserAdmin(DefaultUserAdmin):
             'fields': ('first_name', 'last_name', 'email', 'password1', 'password2'),
         }),
     )
-    list_display = ('id', 'email', 'first_name', 'last_name', 'is_staff')
+    list_display = ('id', 'email', 'first_name', 'last_name','username', 'last_login', 'date_joined', 'is_active','is_staff')
     search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('email',)
+    list_display_links = ('email', 'first_name', 'last_name')
+    readonly_fields = ('last_login', 'date_joined' )
+    ordering = ('-date_joined',)
+
+    
 
 # Register your custom User model with the custom UserAdmin
 admin.site.register(User, CustomUserAdmin)
