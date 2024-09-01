@@ -8,7 +8,7 @@ router = routers.DefaultRouter()
 router.register('products' , views.ProductsViewSet)
 router.register('categories' , views.CategoryViewSet)
 router.register("carts", views.CartViewSet)
-router.register("profiles", views.ProfileViewSet)
+router.register("profiles", views.ProfileViewSet,basename="profiles")
 router.register("orders", views.OrderViewSet, basename="orders")
 
 

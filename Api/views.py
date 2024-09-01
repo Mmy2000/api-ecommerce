@@ -83,9 +83,15 @@ class OrderViewSet(ModelViewSet):
 
 
 class ProfileViewSet(ModelViewSet):
-    queryset = Profile.objects.all()
+    permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
     parser_classes = (MultiPartParser, FormParser)
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return Profile.objects.all()
+        return Profile.objects.filter(user=user)
     
     def create(self, request, *args, **kwargs):
         name = request.data["name"]
