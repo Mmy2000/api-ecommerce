@@ -132,6 +132,7 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order 
         fields = ['id', "placed_at", "pending_status", "owner", "items"]
+
     
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:

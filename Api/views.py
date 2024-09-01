@@ -83,6 +83,7 @@ class OrderViewSet(ModelViewSet):
 
 
 class ProfileViewSet(ModelViewSet):
+    http_method_names = ["get", "post", "patch", "delete"]
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
     parser_classes = (MultiPartParser, FormParser)
@@ -92,16 +93,23 @@ class ProfileViewSet(ModelViewSet):
         if user.is_staff:
             return Profile.objects.all()
         return Profile.objects.filter(user=user)
-    
+
     def create(self, request, *args, **kwargs):
-        name = request.data["name"]
-        bio = request.data["bio"]
-        picture = request.data["picture"]
+    # Get or create a profile for the user
+        profile, created = Profile.objects.get_or_create(user=request.user)
+
+        # If the profile was already created, update it with the new data
+        serializer = self.get_serializer(profile, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
         
-        Profile.objects.create(name = name, bio = bio, picture=picture)
-        
-        
-        return Response("Profile created successfully", status=status.HTTP_200_OK)
+        if created:
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 
