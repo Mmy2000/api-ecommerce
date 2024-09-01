@@ -42,7 +42,7 @@ class Review(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
-    discount = models. BooleanField(default=False)
+    discount = models.BooleanField(default=False)
     image = models.ImageField(upload_to = 'img',  blank = True, null=True, default='')
     old_price = models.FloatField(default=100.00,help_text="this is the price if no discount, if is discount it become an old price")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products')
@@ -57,11 +57,15 @@ class Product(models.Model):
     # @property
     # def price(self):
     #     old_price_decimal = Decimal(str(self.old_price))  # Convert old_price to Decimal for accurate calculations
-    #     if self.discount and self.discountValue:
+    #     print(f"Discount: {self.discount}, Discount Value: {self.discountValue}")  # Debugging info
+        
+    #     if self.discount and self.discountValue > 0:
     #         discount_amount = (self.discountValue / Decimal('100')) * old_price_decimal
     #         new_price = old_price_decimal - discount_amount
+    #         print(f"Old Price: {old_price_decimal}, Discount Applied: {discount_amount}, New Price: {new_price}")
     #     else:
     #         new_price = old_price_decimal
+    #         print(f"No discount applied. Price: {new_price}")
     #     return new_price
 
     
