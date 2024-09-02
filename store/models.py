@@ -100,7 +100,7 @@ class ProImage(models.Model):
         return str(self.product)
 
 class Cart(models.Model):
-    owner = models.ForeignKey(Customer, on_delete=models.CASCADE, null = True, blank=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null = True, blank=True)
     cart_id = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
     completed = models.BooleanField(default=False)
