@@ -167,6 +167,12 @@ class Order(models.Model):
     
     def __str__(self):
         return self.pending_status
+    
+    @property 
+    def total_price(self):
+        items = self.items.all()
+        total = sum([item.quantity * item.product.old_price for item in items])
+        return total
 
 
 

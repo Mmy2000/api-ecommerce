@@ -152,3 +152,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+FLW_SEC_KEY = "FLWSECK_TEST-b0fa3a9c6900bf82fb5a4287b900be18-X"
